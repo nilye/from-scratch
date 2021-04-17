@@ -1,0 +1,96 @@
+Q：求最长公共子串长度
+const str1 = '1AB2345CD'; const str2 = '12345EF';
+LCS(str1, str2); // 4
+
+Q:  写一个并发 request 函数，能够控制并发请求数量并在调用 cancel 的时候可以取消掉所有请求。请求直接使用 fetch 发送。
+
+function request(urls, limit, done) {
+  return {
+    cancel: () => {}
+  };
+};
+```
+
+Q: const data = [{
+    chapter: '三角函数',
+    children: [{
+        chapter: '三角函数简介',
+        children: [
+            {
+                chapter: '正弦函数',
+                children: [{
+                    chapter: '试题'
+                }],
+            },
+            {
+                chapter: '余弦函数',
+                children: [{
+                    chapter: '试题1'
+                }, {
+                    chapter: '试题2'
+                }]
+            },
+            {
+                chapter: '总结'
+            }
+        ]
+    }, {
+        chapter: '勾股定理',
+        children: [
+            {
+                chapter: '详解'
+            },
+            {
+                chapter: '试题',
+                children: [{
+                    chapter: '试题 1'
+                }]
+            }
+        ]
+    }
+    ]
+}];
+
+
+1 三角函数
+  1.1 三角函数简介
+  1.1.1 正弦函数
+    1.1.1.1 试题
+  1.1.2 余弦函数
+  ...
+
+function traverse( data ){
+
+   const result = []
+
+   function recur(node, prefix, order){
+      let parentPrefix = prefix
+      if (node){
+        parentPrefix.push(order)
+        result.push({
+          content: node.chapter,
+          prefix: parentPrefix
+        })
+      }
+      if (node.children && node.children.length > 0){
+        for (let i = 0; i< node.children.length; i++){
+          recur(node.children[i], parentPrefix.slice(), i + 1)
+        }
+      }
+   }
+
+  for (let n = 0; n < data.length; n++){
+     recur(data[n], [], n + 1)
+  }
+
+  return result
+}
+
+function print(nodes){
+  for (let i of nodes){
+    console.log(`${i.prefix.join('.')} ${i.content}`)
+  }
+}
+
+// run
+print( traverse(data) )

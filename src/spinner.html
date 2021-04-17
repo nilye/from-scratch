@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<script defer src="call.js" ></script>
+	</head>
+	<body>
+		<svg style="transform: rotate(-90deg)">
+			<circle id="loader" r="40" cx="50" cy="50" stroke="#1415fc" stroke-width="8" fill="none" stroke-linecap="round" stroke-dashoffset="0" stroke-dasharray="250px"></circle>
+		</svg>
+		<script>
+			let x = 250
+			let loading = document.querySelector('#loader')
+			function updateLoading (){
+				window.requestAnimationFrame(() => {
+					x -= 2
+					if (x <= 0){
+						x = 0
+					} else {
+						updateLoading()
+					}
+					loading.setAttribute('stroke-dashoffset', x + 'px')
+				})
+			}
+			updateLoading()
+		</script>
+	</body>
+</html>

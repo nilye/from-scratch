@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+		<script crossorigin src="https://unpkg.com/three@0.127.0/build/three.js"></script>
+	</head>
+	<body>
+		<input id="num"/>
+		<script>
+			const worker = new Worker('./worker.js')
+			const input = document.querySelector('#num')
+			function onChange(){
+				worker.postMessage(input.value)
+			}
+			input.addEventListener('change', onChange)
+
+			worker.onmessage = function(e){
+				console.log('worker onmessage', e)
+			}
+
+			window.onload = function() {
+				performance.getEntries().forEach(console.log)
+			}
+			console.log(window)
+			function fib(n){
+				if (n === 1 || n === 2 )return n
+				console.log(performance.memory)
+				if (performance.memory.usedJSHeapSize > 13216000){
+					debugger
+				}
+				return fib(n-1) + fib(n-2)
+			}
+			console.log(fib(30))
+			console.log(performance.memory)
+		</script>
+	</body>
+</html>

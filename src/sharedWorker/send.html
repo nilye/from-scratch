@@ -1,0 +1,19 @@
+<html>
+	<body>
+	<input type="text" id="msg" />
+	<button id="send">发送</button>
+	<script>
+		// 注意：要写 js 文件路径
+		// 因为是平级所以不需要加路径
+		let worker = new SharedWorker("worker.js");
+		// start 是 ShatedWorker 的一个属性
+		worker.port.start();
+		// 发送数据
+		send.onclick = function () {
+			if (msg.value.trim() !== "") {
+				worker.port.postMessage(msg.value.trim());
+			};
+		};
+	</script>
+	</body>
+</html>

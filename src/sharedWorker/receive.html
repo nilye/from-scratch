@@ -1,0 +1,29 @@
+<html>
+	<body>
+	<div>
+		<span>收到消息：</span>
+		<span id="recMsg"></span>
+	</div>
+	<script>
+		let worker = new SharedWorker("worker.js");
+		// 3. 当 worker.js 中给当前客户端返回了 data，
+		// 会触发当前客户端的 message 事件。
+		// data 的值自动保存进事件对象 e 的 data 属性中
+		worker.port.addEventListener("message", function (e) {
+			recMsg.innerHTML = e.data;
+		});
+		worker.port.start();
+		// 1. 接收端反复向共享的 worker.js 对象中发送空消息，
+		// 意为想获取 data 的值
+		setInterval(function () {
+			worker.port.postMessage("");
+			// 2. 只要发送消息，
+			// 就触发 worker.js 中的 onmessage ，
+			// onmessage 判断是空消息内容，
+			// 说明客户端想获得 data 。
+			// 于是就用 postMessage() 方法，
+			// 将 data 返回给当前客户端
+		}, 500);
+	</script>
+	</body>
+</html>
